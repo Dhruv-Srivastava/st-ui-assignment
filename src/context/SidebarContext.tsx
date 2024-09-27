@@ -4,7 +4,7 @@ const SidebarContext = createContext();
 
 export default function SidebarProvider({ children }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [screenSize, setScreenSize] = useState("desktop");
+  const [screenSize, setScreenSize] = useState<string | null>(null);
 
   function handleOpenSidebar() {
     setIsSidebarOpen(true);
@@ -18,6 +18,7 @@ export default function SidebarProvider({ children }) {
       const width = window.innerWidth;
       if (width < 768) {
         setScreenSize("mobile");
+        setIsSidebarOpen(false);
       } else if (width <= 1024) {
         setScreenSize("tablet");
       } else {

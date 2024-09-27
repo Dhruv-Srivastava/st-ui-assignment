@@ -1,10 +1,12 @@
+import { motion } from "framer-motion";
+
 import {
   Search,
   MessageSquare,
-  ChevronDown,
   Menu,
   BellDot,
 } from "lucide-react";
+
 
 import { useSidebar } from "../../context/SidebarContext";
 import Avatar from "./Avatar";
@@ -25,11 +27,13 @@ export default function Navbar() {
           <Menu className="text-[#B2B2B2]" size={20} />
         </button>
         <div className="relative h-5 md:h-auto">
-          {screenSize !== "mobile" && (
-            <input
+          {screenSize !== null && screenSize !== "mobile" && (
+            <motion.input
               type="text"
               placeholder="Search"
               className="w-full pl-10 pr-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              animate={{opacity:1}}
+              transition={{duration:0.2}}
             />
           )}
 

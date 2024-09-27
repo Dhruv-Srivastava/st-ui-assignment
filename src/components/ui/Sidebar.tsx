@@ -28,23 +28,32 @@ const menuItems = [
 export default function Sidebar() {
   const { screenSize, isSidebarOpen, handleCloseSidebar } = useSidebar();
   const shouldShowCompleteSidebar = isSidebarOpen || screenSize === "desktop";
-
+  const sidebarVariants = {
+    open: {
+      width: "240px",
+      transition: { duration: 0.1 },
+    },
+    closed: {
+      width: "0px",
+      transition: { duration: 0.1 },
+    },
+    normal: {
+      width: screenSize === "desktop" ? "fit-content" : "96px",
+      transition: { duration: 0.1 },
+    },
+  };
 
   return (
     <AnimatePresence>
-      {(isSidebarOpen || screenSize !== "mobile") && (
+      {(isSidebarOpen || (screenSize !== "mobile" && screenSize !== null)) && (
         <motion.aside
           className={cn(
             "fit-content absolute flex top-0 left-0 z-10 bg-[#fdfdfd] min-h-screen border-r flex-col gap-14 py-4 px-3 md:static md:px-3 lg:px-4"
           )}
-          animate={{
-            width:
-              isSidebarOpen
-                ? "auto"
-                : "fit-content",
-          }}
-          exit={{ width: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          animate={isSidebarOpen ? "open" : "normal"}
+          exit="closed"
+          variants={sidebarVariants}
+          style={{ width: screenSize === "desktop" ? "fit-content" : "" }}
         >
           <div className="flex items-center gap-1.5">
             <img src={BrandLogo} alt="" className="w-10 h-10" />
@@ -73,7 +82,10 @@ export default function Sidebar() {
                   className={({ isActive }) =>
                     cn(
                       "w-full flex items-center gap-4 p-4 text-[#686868]",
-                      isActive ? "text-[#FF5151]" : "hover:bg-gray-100"
+                      isActive ? "text-[#FF5151]" : "hover:bg-gray-100",
+                      !isSidebarOpen &&
+                        screenSize === "tablet" &&
+                        "justify-center"
                     )
                   }
                 >
